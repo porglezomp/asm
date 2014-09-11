@@ -11,14 +11,25 @@ printnum:
 	mov ebp, esp
 
 	mov eax, [ebp+8]	; put argument into eax
-	;; modulous 10
+	xor ecx, ecx		; zero the string length
+	mov ebx, 10			; store 10 in ebx for dividing
+
+L_prepchar:
+	;; prepare the characters to be printed
+	
+	inc ecx
 	xor edx, edx		; zero edx
-	mov ecx, 10
-	div ecx
-	mov eax, edx
-	add eax, nums
-	push dword 1		; 1 character
-	push dword eax		; send character at index
+	div ebx				; divide eax by 10
+	add edx, "0"		; turn edx into ascii for the digit
+	sub esp, 1
+	mov [esp], dl
+	cmp eax, 0			; work until all characters are depleted
+	jg L_prepchar
+	;; store the beginning of the string
+	mov edx, esp		
+
+	push dword ecx		; 1 character
+	push dword edx		; beginning of string
 	push dword 1
 	sub esp, 4			; 16-byte align stack
 

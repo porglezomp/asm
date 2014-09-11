@@ -4,20 +4,9 @@ global start
 extern printnum
 
 start:
-	mov ecx, 0		; i = 0
-	
-L_loop:
-	;; print i
-	push dword ecx	; save register
-	push dword ecx	; push argument
+	push dword 4242	; push argument
 	call printnum
 	add esp, 4		; pop argument
-	pop dword ecx	; load saved register
-
-	;; loop 10 times
-	inc ecx
-	cmp ecx, 10
-	jl L_loop
 
 	;; print a newline
 	push dword 1
